@@ -6,7 +6,9 @@
   "dependencies": {
     "firmata": "^0.9.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "bufferpack": "0.0.6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
