@@ -7,10 +7,11 @@
     "firmata": "^0.9.0"
   },
   "devDependencies": {
-    "bufferpack": "0.0.6"
+    "bufferpack": "0.0.6",
+    "mocha": "^2.4.5"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test.js"
   },
   "repository": {
     "type": "git",
