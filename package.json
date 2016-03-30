@@ -4,10 +4,10 @@
   "description": "Adafruit Circuit Playground IO Plugin",
   "main": "lib/index.js",
   "dependencies": {
+    "bufferpack": "0.0.6",
     "firmata": "rwaldron/firmata#117"
   },
   "devDependencies": {
-    "bufferpack": "0.0.6",
     "mocha": "^2.4.5"
   },
   "scripts": {
