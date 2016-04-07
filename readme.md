@@ -15,18 +15,61 @@ Control the Neopixels directly attached to the board.
 ```js
 var Playground = require("playground-io");
 var five = require("johnny-five");
-var board = new five.Board({
-  io: new Playground({
-    port: "/dev/tty.usbmodem1411"
-  })
+var io = new Playground({
+  port: "/dev/tty.usbmodem1411"
 });
+var board = new five.Board({ io: io });
 board.on("ready", function() {
   var pixels = Array.from({ length: 10 }, function(_, index) {
     return new five.Led.RGB({
       controller: Playground.Pixel,
       pin: index
     });
-  });
+  }); 
+  
+  var led = new five.Led(13); 
+  
+  var buttonL = new five.Button('4', {
+    isPullup: true,
+    invert: true
+  }); 
+  
+  var buttonR = new five.Button('19', {
+    isPullup: true,
+    invert: true
+  }); 
+  
+  var toggle = new five.Switch('21'); 
+  
+  var piezo = new five.Piezo({
+    pin: '5',
+    controller: Playground.Piezo
+  }); 
+  
+  var thermometer = new five.Thermometer({
+    controller: "TINKERKIT",
+    pin: "A0",
+    freq: 100
+  }); 
+  
+  var light = new five.Sensor({
+    pin: "A5",
+    freq: 100
+  }); 
+  
+  var sound = new five.Sensor({
+    pin: "A4",
+    freq: 100
+  }); 
+  
+  var accelerometer = new five.Gyro({
+    controller: Playground.Gyro
+  }); 
+  
+  var tap = new Playground.Tap(io); 
+  
+  var touch = new Playground.CapTouch(io);
+
   var index = 0;
   var colors = [
     "red",
@@ -38,13 +81,25 @@ board.on("ready", function() {
     "violet",
   ];
 
-  setInterval(() => {
-    pixels.forEach(pixel => pixel.color(colors[index]));
+  setInterval(function() {
+    pixels.forEach(function(pixel) {
+      pixel.color(colors[index]);
+    });
 
     if (++index === colors.length) {
       index = 0;
     }
   }, 100);
+  
+  tap.onTap(function(single, double) {
+    piezo.frequency(double ? 1500 : 500, 50);
+  });
+  
+  touch.onTouch(10, function(didTouch, value) {
+    if (didTouch) {
+      piezo.frequency(700, 50);
+    }
+  });
 });
 ```
 
