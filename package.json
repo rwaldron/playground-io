@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "bufferpack": "0.0.6",
-    "firmata": "rwaldron/firmata#117"
+    "firmata": "^0.11.3"
   },
   "devDependencies": {
     "mocha": "^2.4.5"
