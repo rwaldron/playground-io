@@ -62,8 +62,8 @@ board.on("ready", function() {
     freq: 100
   }); 
   
-  var accelerometer = new five.Gyro({
-    controller: Playground.Gyro
+  var accelerometer = new five.Accelerometer({
+    controller: Playground.Accelerometer
   }); 
   
   var tap = new Playground.Tap(io); 
