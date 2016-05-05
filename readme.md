@@ -15,12 +15,13 @@ Control the Neopixels directly attached to the board.
 ```js
 var Playground = require("playground-io");
 var five = require("johnny-five");
-var io = new Playground({
-  port: "/dev/tty.usbmodem1411"
+var board = new five.Board({ 
+  io: new Playground({
+    port: "/dev/tty.usbmodem1411"
+  })
 });
-var board = new five.Board({ io: io });
 board.on("ready", function() {
-  var pixels = Array.from({ length: 10 }, function(_, index) {
+  var pixels = Array.from({ length: 10 }, (_, index) => {
     return new five.Led.RGB({
       controller: Playground.Pixel,
       pin: index
@@ -28,22 +29,13 @@ board.on("ready", function() {
   }); 
   
   var led = new five.Led(13); 
-  
-  var buttonL = new five.Button('4', {
-    isPullup: true,
-    invert: true
-  }); 
-  
-  var buttonR = new five.Button('19', {
-    isPullup: true,
-    invert: true
-  }); 
-  
-  var toggle = new five.Switch('21'); 
+  var buttonL = new five.Button(4); 
+  var buttonR = new five.Button(19); 
+  var toggle = new five.Switch(21); 
   
   var piezo = new five.Piezo({
-    pin: '5',
-    controller: Playground.Piezo
+    controller: Playground.Piezo,
+    pin: 5,
   }); 
   
   var thermometer = new five.Thermometer({
