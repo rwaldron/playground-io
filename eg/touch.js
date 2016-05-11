@@ -8,7 +8,7 @@ var board = new five.Board({
 board.on("ready", function() {
   var pads = new five.Touchpad({
     controller: Playground.Touchpad,
-    pads: [10, 12],
+    pads: [0, 1, 2, 3, 6, 9, 10, 12],
   });
 
   pads.on("touch", (event) => {

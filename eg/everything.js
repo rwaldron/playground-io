@@ -6,17 +6,23 @@ var board = new five.Board({
   })
 });
 board.on("ready", function() {
-  var pixels = Array.from({ length: 10 }, (_, index) => {
-    return new five.Led.RGB({
-      controller: Playground.Pixel,
-      pin: index
-    });
+
+  /**
+   * Playground Controllers
+   */
+  var accelerometer = new five.Accelerometer({
+    controller: Playground.Accelerometer
   });
 
-  var led = new five.Led(13);
-  var buttonL = new five.Button(4);
-  var buttonR = new five.Button(19);
-  var toggle = new five.Switch(21);
+  var pixels = new five.Led.RGBs({
+    controller: Playground.Pixel,
+    pins: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  });
+
+  var pads = new five.Touchpad({
+    controller: Playground.Touchpad,
+    pads: [0, 10],
+  });
 
   var piezo = new five.Piezo({
     controller: Playground.Piezo,
@@ -24,10 +30,17 @@ board.on("ready", function() {
   });
 
   var thermometer = new five.Thermometer({
-    controller: "TINKERKIT",
-    pin: "A0",
+    controller: Playground.Thermometer,
     freq: 100
   });
+
+  /**
+   * Default Component Controllers
+   * @type {five}
+   */
+  var buttons = new five.Buttons([4, 19]);
+
+  var led = new five.Led(13);
 
   var light = new five.Sensor({
     pin: "A5",
@@ -39,17 +52,32 @@ board.on("ready", function() {
     freq: 100
   });
 
-  var accelerometer = new five.Accelerometer({
-    controller: Playground.Accelerometer
-  });
+  var toggle = new five.Switch(21);
 
+  /**
+   * Events and Data Handling
+   */
   accelerometer.on("tap", (data) => {
     piezo.frequency(data.double ? 1500 : 500, 50);
   });
 
-  var pads = new five.Touchpad({
-    controller: Playground.Touchpad,
-    pads: [10],
+  board.loop(1000, () => {
+    console.log("Raw Light: %d", light.value);
+    console.log("Raw Sound: %d", sound.value);
+  });
+
+  buttons.on("press", (button) => {
+    console.log("Which button was pressed? ", button.pin);
+    if (button.pin === 4) {
+      led.on();
+    }
+    if (button.pin === 19) {
+      led.off();
+    }
+  });
+
+  thermometer.on("change", (data) => {
+    console.log("Celcius: %d", data.C);
   });
 
   pads.on("change", (data) => {
