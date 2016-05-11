@@ -6,7 +6,8 @@
   "dependencies": {
     "buffer": "^4.6.0",
     "bufferpack": "0.0.6",
-    "firmata": "^0.11.3"
+    "firmata": "^0.11.3",
+    "lodash.debounce": "^4.0.3"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
