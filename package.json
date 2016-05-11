@@ -1,11 +1,10 @@
 {
   "name": "playground-io",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Adafruit Circuit Playground IO Plugin",
   "main": "lib/index.js",
   "dependencies": {
     "buffer": "^4.6.0",
-    "bufferpack": "0.0.6",
     "firmata": "^0.11.3",
     "lodash.debounce": "^4.0.3"
   },
