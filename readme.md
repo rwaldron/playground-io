@@ -1,12 +1,17 @@
 # Playground-IO
 
-A special Firmata.js wrapper for Adafruit Circuit Playground. This mostly exists to expose controllers that may take advantage of the Circuit Playground's Firmata extensions. 
+A special Firmata.js wrapper for Adafruit Circuit Playground. Exposes controllers that provide access to Circuit Playground's Firmata extensions. 
 
 ## Setup
+
+Before you can use Johnny-Five and Playground-IO, your Circuit Playground board **MUST** have the [CircuitPlaygroundFirmata](https://learn.adafruit.com/circuit-playground-firmata/firmata-sketch) firmware variant uploaded. For instructions, visit [Adafruit's Circuit Playground Firmata tutorial](https://learn.adafruit.com/circuit-playground-firmata/firmata-sketch). Once complete, your Circuit Playground is ready to communicate with Johny-Five programs running in Node.js. Go ahead and install the following: 
 
 ```js
 npm install johnny-five playground-io
 ```
+
+Now you can try out the examples below!
+
 
 ## Playground.Pixel
 
