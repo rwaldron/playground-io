@@ -1,6 +1,6 @@
 {
   "name": "playground-io",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Adafruit Circuit Playground IO Plugin",
   "main": "lib/index.js",
   "dependencies": {
