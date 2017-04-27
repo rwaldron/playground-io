@@ -1,0 +1,4 @@
+.gitignore
+eg/
+node_modules/
+test/
