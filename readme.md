@@ -22,7 +22,12 @@ var Playground = require("playground-io");
 var five = require("johnny-five");
 var board = new five.Board({
   io: new Playground({
-    port: "/dev/tty.usbmodem1411"
+    port: "/dev/tty.usbmodem1411",
+
+    // Passing Firmata options through:
+    // Circuit Playground Firmata seems not to report version before timeout,
+    // lower timeout to reduce initial connection time.
+    reportVersionTimeout: 200
   })
 });
 board.on("ready", function() {
