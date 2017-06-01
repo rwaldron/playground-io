@@ -39,7 +39,7 @@ describe("Playground", () => {
 
   beforeEach((done) => {
     sandbox = sinon.sandbox.create();
-    Playground.hasRegisteredSysexResponse = undefined;
+    Playground.hasRegisteredSysexResponse = false;
     emitter = new Emitter();
     sysexCommand = sandbox.stub(Firmata.prototype, "sysexCommand");
     sysexResponse = sandbox.stub(Firmata.prototype, "sysexResponse");
@@ -51,6 +51,26 @@ describe("Playground", () => {
   });
 
   describe("constructor", () => {
+    beforeEach((done) => {
+      sandbox.spy(Firmata, 'Board');
+      done();
+    });
+
+    it("Forwards a Port and Options", (done) => {
+
+      var pg = new Playground({
+        port: emitter,
+        reportVersionTimeout: 200
+      });
+
+      assert.equal(Firmata.Board.callCount, 1);
+      assert.equal(Firmata.Board.lastCall.args.length, 2);
+      assert.equal(Firmata.Board.lastCall.args[0], emitter);
+      assert.deepEqual(Firmata.Board.lastCall.args[1], { reportVersionTimeout: 200 });
+      pg.on("ready", () => done());
+      pg.emit("ready");
+    });
+
     it("Emits ready", (done) => {
 
       var pg = new Playground({
@@ -72,6 +92,36 @@ describe("Playground", () => {
         done();
       });
       pg.emit("ready");
+    });
+
+    it("Registers CP_COMMAND only once, regardless of Playground instances", (done) => {
+
+      assert.equal(Playground.hasRegisteredSysexResponse, false);
+
+      var a = new Playground({
+        port: emitter
+      });
+      var b = new Playground({
+        port: emitter
+      });
+      var c = new Playground({
+        port: emitter
+      });
+
+      a.on("ready", () => {
+        assert.equal(Playground.hasRegisteredSysexResponse, true);
+      });
+      b.on("ready", () => {
+        assert.equal(Playground.hasRegisteredSysexResponse, true);
+      });
+      c.on("ready", () => {
+        assert.equal(Playground.hasRegisteredSysexResponse, true);
+        assert.equal(sysexResponse.callCount, 1);
+        done();
+      });
+      a.emit("ready");
+      b.emit("ready");
+      c.emit("ready");
     });
   });
 
