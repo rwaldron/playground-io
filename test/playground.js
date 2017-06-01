@@ -39,6 +39,7 @@ describe("Playground", () => {
 
   beforeEach((done) => {
     sandbox = sinon.sandbox.create();
+    Playground.hasRegisteredSysexResponse = undefined;
     emitter = new Emitter();
     sysexCommand = sandbox.stub(Firmata.prototype, "sysexCommand");
     sysexResponse = sandbox.stub(Firmata.prototype, "sysexResponse");
