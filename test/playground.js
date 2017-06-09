@@ -1,13 +1,8 @@
 var assert = require("assert");
 var Emitter = require("events").EventEmitter;
-var proxyquire = require("proxyquire");
 var sinon = require("sinon");
-
-// Spy on Firmata dependency when testing Playground
-var Firmata = sinon.spy(require("firmata"));
-var Playground = proxyquire("../", {
-  firmata: Firmata
-});
+var Firmata = require("firmata");
+var Playground = require("../");
 
 // Constants that define the Circuit Playground Firmata command values.
 // Must be synced with library source.
@@ -43,8 +38,6 @@ describe("Playground", () => {
   var sysexResponse;
 
   beforeEach((done) => {
-    // Reset Firmata spy (which is outside the sandbox) before every test
-    Firmata.reset();
     sandbox = sinon.sandbox.create();
     Playground.hasRegisteredSysexResponse = false;
     emitter = new Emitter();
@@ -58,6 +51,11 @@ describe("Playground", () => {
   });
 
   describe("constructor", () => {
+    beforeEach((done) => {
+      sandbox.spy(Firmata, 'Board');
+      done();
+    });
+
     it("Forwards a Port and Options", (done) => {
 
       var pg = new Playground({
@@ -65,10 +63,10 @@ describe("Playground", () => {
         reportVersionTimeout: 200
       });
 
-      assert.equal(Firmata.callCount, 1);
-      assert.equal(Firmata.lastCall.args.length, 2);
-      assert.equal(Firmata.lastCall.args[0], emitter);
-      assert.deepEqual(Firmata.lastCall.args[1], { reportVersionTimeout: 200 });
+      assert.equal(Firmata.Board.callCount, 1);
+      assert.equal(Firmata.Board.lastCall.args.length, 2);
+      assert.equal(Firmata.Board.lastCall.args[0], emitter);
+      assert.deepEqual(Firmata.Board.lastCall.args[1], { reportVersionTimeout: 200 });
       pg.on("ready", () => done());
       pg.emit("ready");
     });
