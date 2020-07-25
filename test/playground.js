@@ -51,11 +51,6 @@ describe("Playground", () => {
   });
 
   describe("constructor", () => {
-    beforeEach((done) => {
-      sandbox.spy(Firmata, 'Board');
-      done();
-    });
-
     it("Forwards a Port and Options", (done) => {
 
       var pg = new Playground({
@@ -63,10 +58,8 @@ describe("Playground", () => {
         reportVersionTimeout: 200
       });
 
-      assert.equal(Firmata.Board.callCount, 1);
-      assert.equal(Firmata.Board.lastCall.args.length, 2);
-      assert.equal(Firmata.Board.lastCall.args[0], emitter);
-      assert.deepEqual(Firmata.Board.lastCall.args[1], { reportVersionTimeout: 200 });
+      assert.equal(pg.transport, emitter);
+      assert.equal(pg.settings.reportVersionTimeout, 200);
       pg.on("ready", () => done());
       pg.emit("ready");
     });
