@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "buffer": "^4.6.0",
-    "firmata": ">=0.11.3",
+    "firmata": "^2.2.0",
     "lodash.debounce": "^4.0.3"
   },
   "devDependencies": {
